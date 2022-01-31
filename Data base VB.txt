@@ -1,0 +1,491 @@
+
+Private Sub agregarp_Click()
+ Dim fila As Object
+    Dim linea As Integer
+    valor_buscado = Me.TextBox3
+    Dim col As Integer
+     
+     col = pag.Value
+     
+    Dim a As Date
+    Dim fecha As String
+    
+    a = Date
+    fecha = a
+     
+    Set fila = Sheets("DATA").Range("A:A").Find(valor_buscado, LookAt:=xlWhole)
+    linea = fila.Row
+    
+    j = 73
+    k = 8
+    
+    For i = 1 To col
+    
+    
+        letra = Chr(j)
+    
+    
+    
+        j = j + 1
+        k = k + 1
+    Next
+    
+    If IsEmpty(Hoja2.Cells(linea, k)) Then
+        Worksheets("DATA").Range(letra & linea).Value = Me.pagare.Value
+    
+        Hoja2.Cells(linea, k).AddComment
+        Hoja2.Cells(linea, k).Comment.Text Text:=fecha
+    
+        MsgBox ("Pagare Guardado")
+    
+    Else
+        MsgBox ("Este Pagare Ya Esta Registrado")
+    
+    End If
+     
+    Me.pag.Value = "1"
+    Me.pagare.Value = Empty
+    
+    
+    
+    
+    
+    
+    
+End Sub
+
+Private Sub BotonBuscar_Click()
+    
+    numerodatos = Hoja2.Range("A" & Rows.Count).End(xlUp).Row
+    LISTA = Clear
+    LISTA.RowSource = Clear
+    y = 0
+    For fila = 2 To numerodatos
+    
+    nombre = Hoja2.Cells(fila, 2).Value
+    lote = Hoja2.Cells(fila, 3).Value
+    
+    If UCase(nombre) Like "*" & UCase(Me.TEXTBUSCAR.Value) & "*" Then
+    
+    Me.LISTA.AddItem
+    Me.LISTA.List(y, 0) = Hoja2.Cells(fila, 1).Value
+    Me.LISTA.List(y, 1) = Hoja2.Cells(fila, 2).Value
+    Me.LISTA.List(y, 2) = Hoja2.Cells(fila, 3).Value
+    Me.LISTA.List(y, 3) = Hoja2.Cells(fila, 4).Value
+    Me.LISTA.List(y, 4) = Hoja2.Cells(fila, 5).Value
+    Me.LISTA.List(y, 5) = Hoja2.Cells(fila, 6).Value
+    Me.LISTA.List(y, 6) = Hoja2.Cells(fila, 7).Value
+    Me.LISTA.List(y, 7) = Hoja2.Cells(fila, 8).Value
+    
+    y = y + 1
+    
+    End If
+        If UCase(lote) Like "*" & UCase(Me.TEXTBUSCAR.Value) & "*" Then
+    
+    Me.LISTA.AddItem
+    Me.LISTA.List(y, 0) = Hoja2.Cells(fila, 1).Value
+    Me.LISTA.List(y, 1) = Hoja2.Cells(fila, 2).Value
+    Me.LISTA.List(y, 2) = Hoja2.Cells(fila, 3).Value
+    Me.LISTA.List(y, 3) = Hoja2.Cells(fila, 4).Value
+    Me.LISTA.List(y, 4) = Hoja2.Cells(fila, 5).Value
+    Me.LISTA.List(y, 5) = Hoja2.Cells(fila, 6).Value
+    Me.LISTA.List(y, 6) = Hoja2.Cells(fila, 7).Value
+    Me.LISTA.List(y, 7) = Hoja2.Cells(fila, 8).Value
+    
+    y = y + 1
+    
+    End If
+    
+    
+    
+    Next
+    
+End Sub
+
+Private Sub BotonCancelar2_Click()
+    Unload Me
+End Sub
+
+Private Sub BotonEditar_Click()
+    'FormularioBuscar.Height = 510
+    
+    If LISTA.ListIndex = -1 Then
+    MsgBox ("Seleccione un registro")
+    Else
+    FormularioBuscar.Height = 510
+    End If
+    
+    
+    
+End Sub
+
+Private Sub BotonEliminar_Click()
+
+    valor_buscado = Me.TextBox3.Value
+    datos = TexNombre.Value
+    
+
+    
+    If LISTA.ListIndex = -1 Then
+        MsgBox ("seleccione un registro")
+    Else
+        respuesta = Application.InputBox("¿Desea eliminar registro?: " & datos, "ingrese contraseña")
+        If respuesta = "beltran" Then
+        
+        Set fila = Sheets("DATA").Range("A:A").Find(valor_buscado, LookAt:=xlWhole)
+        linea = fila.Row
+        Worksheets("DATA").Range("A" & linea).EntireRow.Delete
+        MsgBox ("Se elimino registro")
+        Else
+        MsgBox ("contraseña inconrrecta")
+        End If
+        
+    
+    End If
+    
+    
+    
+    
+End Sub
+
+Private Sub BotonLimpiar_Click()
+    FormularioBuscar.Height = 350
+    
+    Me.TexNombre.Value = Empty
+    Me.TextLM.Value = Empty
+    Me.TextFecha.Value = Empty
+    Me.Textpago.Value = Empty
+    Me.Textmetros.Value = Empty
+    Me.Textnumero.Value = Empty
+    Me.Textvalor.Value = Empty
+    
+    Me.LISTA.RowSource = "CONTRATOS"
+    Me.LISTA.ColumnCount = 8
+    
+    
+     
+    
+    
+End Sub
+
+Private Sub BotonModificar_Click()
+    Dim fila As Object
+    Dim linea As Integer
+    valor_buscado = Me.TextBox3
+     
+     
+    
+    Set fila = Sheets("DATA").Range("A:A").Find(valor_buscado, LookAt:=xlWhole)
+    linea = fila.Row
+    
+    
+    Worksheets("DATA").Range("B" & linea).Value = Me.TexNombre.Value
+    Worksheets("DATA").Range("C" & linea).Value = Me.TextLM.Value
+    Worksheets("DATA").Range("D" & linea).Value = Me.TextFecha.Value
+    Worksheets("DATA").Range("E" & linea).Value = Me.Textpago.Value
+    Worksheets("DATA").Range("F" & linea).Value = Me.Textmetros.Value
+    Worksheets("DATA").Range("G" & linea).Value = Me.Textnumero.Value
+    Worksheets("DATA").Range("H" & linea).Value = Me.Textvalor.Value
+    
+    MsgBox "Se ha modificado la informaciòn", , "¡LISTO!"
+    
+    
+   
+    
+    
+    
+    
+End Sub
+
+Private Sub BotonoCancelar_Click()
+    Unload Me
+End Sub
+
+
+Private Sub BotonStatus_Click()
+    If LISTA.ListIndex = -1 Then
+    MsgBox ("Seleccione un registro")
+    Else
+    FormularioBuscar.Height = 510
+    statusList2.Show
+    End If
+
+End Sub
+
+Private Sub CommandButton1_Click()
+ numerodatos = Hoja2.Range("A" & Rows.Count).End(xlUp).Row
+     atrasado = 0
+     For contador = 2 To numerodatos
+         f = Hoja2.Cells(contador, 4)
+         q = CDate(f)
+         w = Date
+
+        mensaje = DateDiff("m", q, w)
+
+        'Dim fila As Object
+        'Dim linea As Integer
+        'valor_buscado = Me.TextBox3
+        'Set fila = Sheets("FIDEICOMISO").Range("A:A").Find(valor_buscado, LookAt:=xlWhole)
+        'linea = fila.Row
+        
+         j = 0
+         k = 9
+            For i = 0 To 35
+                If IsEmpty(Hoja2.Cells(contador, k)) Then
+                 Exit For
+                Else
+                 k = k + 1
+                 j = j + 1
+                End If
+             Next
+   ' MsgBox (mensaje)
+    'MsgBox (j)
+    
+         If j <= mensaje - 3 Then
+            atrasado = atrasado + 1
+            Hoja7.Cells(atrasado + 1, 1) = Hoja2.Cells(contador, 2)
+            Hoja7.Cells(atrasado + 1, 2) = Hoja2.Cells(contador, 7)
+            
+         End If
+    
+    
+ 
+ 'End If
+ 
+    Next
+ MsgBox (atrasado & " Atrasados")
+ Unload Me
+ Sheets("Atrasados").Select
+End Sub
+
+Private Sub LISTA_Click()
+    Dim codigo As Integer
+    codigo = LISTA.List(LISTA.ListIndex, 0)
+    Me.TextBox3.Value = codigo
+     
+End Sub
+
+Private Sub SpinButton2_Change()
+    pag.Text = SpinButton2.Value
+End Sub
+
+Private Sub TextBox3_Change()
+    Dim codigo As Integer
+    codigo = TextBox3.Value
+    Me.TexNombre = Application.WorksheetFunction.VLookup(codigo, Sheets("DATA").Range("A:H"), 2, 0)
+    Me.TextLM = Application.WorksheetFunction.VLookup(codigo, Sheets("DATA").Range("A:H"), 3, 0)
+    Me.TextFecha = Application.WorksheetFunction.VLookup(codigo, Sheets("DATA").Range("A:H"), 4, 0)
+    Me.Textpago = Application.WorksheetFunction.VLookup(codigo, Sheets("DATA").Range("A:H"), 5, 0)
+    Me.Textmetros = Application.WorksheetFunction.VLookup(codigo, Sheets("DATA").Range("A:H"), 6, 0)
+    Me.Textnumero = Application.WorksheetFunction.VLookup(codigo, Sheets("DATA").Range("A:H"), 7, 0)
+    Me.Textvalor = Application.WorksheetFunction.VLookup(codigo, Sheets("DATA").Range("A:H"), 8, 0)
+     
+
+End Sub
+
+Private Sub TEXTBUSCAR_Change()
+TEXTBUSCAR.Text = UCase(TEXTBUSCAR.Text)
+End Sub
+
+Private Sub UserForm_Activate()
+    
+    Me.LISTA.RowSource = "CONTRATOS"
+    Me.LISTA.ColumnCount = 44
+    FormularioBuscar.Height = 350
+    FormularioBuscar.Width = 900
+    LISTA.ColumnHeads = True
+    
+    
+    pag.Value = SpinButton2.Value
+    
+    
+    
+    
+    
+    
+    
+    
+End Sub
+
+
+Private Sub UserForm_Initialize()
+ Me.LISTA.ColumnWidths = "30;180"
+ 
+End Sub
+
+
+Private Sub BotonAgregar_Click()
+
+    Application.ScreenUpdating = False
+    Application.DisplayStatusBar = True
+    Application.StatusBar = "Iniciando..."
+    Dim metros As String
+    metros = "m²"
+
+
+    Sheets("DATA").Select
+    Range("A2").EntireRow.Insert
+    
+    
+    'Rows("2:2").Select
+    'Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrDown
+    
+    
+    Worksheets("DATA").Range("B2").Value = Me.Uno
+    Worksheets("DATA").Range("C2").Value = Me.Dos
+    Worksheets("DATA").Range("E2").Value = Me.Tres
+    Worksheets("DATA").Range("F2").Value = Me.Cuatro
+    Worksheets("DATA").Range("G2").Value = Me.Cinco
+    Worksheets("DATA").Range("H2").Value = Me.Seis
+    
+    Range("A2").Select
+    ActiveCell.Value = Hoja1.Range("Q2")
+    
+    
+    Range("D2").Select
+    ActiveCell.Value = Date
+    
+         Range("B2").Select
+    With Selection
+        .HorizontalAlignment = xlLeft
+        .VerticalAlignment = xlBottom
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    
+   
+    MsgBox "Se ha agregado un nuevo contrato", , "¡LISTO!"
+    
+    Unload Me
+    
+    Sheets("INICIO").Select
+    
+    Application.ScreenUpdating = True
+    Application.StatusBar = "Ejecución terminada."
+    
+
+
+
+End Sub
+
+
+Private Sub BotonCancelar_Click()
+
+    Unload Me
+    
+End Sub
+
+
+
+Private Sub Cinco_Change()
+    ' esta macro es para numero de telefono
+
+    If Len(Cinco.Text) = 3 Then
+    Cinco.Text = Cinco.Text & Chr(45)
+    End If
+    If Len(Cinco.Text) = 7 Then
+    Cinco.Text = Cinco.Text & Chr(45)
+    End If
+    Cinco.MaxLength = 12
+    
+End Sub
+
+Private Sub Dos_Change()
+'esta macro da formato a lote y manzana
+    
+    Dos.Text = UCase(Dos.Text)
+    If Len(Dos.Text) = 1 Then
+    Dos.Text = Dos.Text & Chr(45)
+    End If
+
+End Sub
+
+Private Sub Fideicomiso_Click()
+
+End Sub
+
+Private Sub Uno_Change()
+'    esta macro convierte a mayuscula el nombre del contratante
+    
+    Uno.Text = UCase(Uno.Text)
+
+End Sub
+
+Private Sub UserForm_Click()
+
+End Sub
+
+
+Private Sub UserForm_Initialize()
+Dim fila As Object
+    Dim linea As Integer
+    valor_buscado = FomularioFBuscar.TextBox3
+     
+     Me.ListBox1.ColumnCount = 10
+     Me.ListBox2.ColumnCount = 10
+     Me.ListBox3.ColumnCount = 10
+     Me.ListBox4.ColumnCount = 10
+     
+    
+    Set fila = Sheets("FIDEICOMISO").Range("A:A").Find(valor_buscado, LookAt:=xlWhole)
+    linea = fila.Row
+    j = 9
+    Me.ListBox1.ColumnWidths = "30;30;30;30;30;30;30;30;30;30;"
+    Me.ListBox2.ColumnWidths = "30;30;30;30;30;30;30;30;30;30;"
+    Me.ListBox3.ColumnWidths = "30;30;30;30;30;30;30;30;30;30;"
+    Me.ListBox4.ColumnWidths = "30;30;30;30;30;30;30;30;30;30;"
+    For i = 0 To 9
+    
+    Me.ListBox1.AddItem
+    Me.ListBox1.List(0, i) = Hoja3.Cells(linea, j).Value
+    
+
+  
+    
+    j = j + 1
+    
+    
+    Next i
+    
+    j = 19
+    For i = 0 To 9
+    
+    Me.ListBox2.AddItem
+    Me.ListBox2.List(0, i) = Hoja3.Cells(linea, j).Value
+    
+    
+    
+
+  
+    
+    j = j + 1
+    Next i
+    
+    j = 29
+    For i = 0 To 9
+    
+    Me.ListBox3.AddItem
+    Me.ListBox3.List(0, i) = Hoja3.Cells(linea, j).Value
+
+  
+    
+    j = j + 1
+    Next i
+    
+    j = 39
+    For i = 0 To 9
+    
+    Me.ListBox4.AddItem
+    Me.ListBox4.List(0, i) = Hoja3.Cells(linea, j).Value
+
+  
+    
+    j = j + 1
+    Next i
+     
+End Sub
